@@ -227,7 +227,8 @@ def ruanjian():
             except Exception as e:
                 timeList = [time.strptime(x, "%Y-%m-%d") for x in timeList]
                 timeList = [datetime.datetime(*x[:3]) for x in timeList]
-            qid=re.findall(r'[0-9]{5}',file)
+            #qid=re.findall(r'[0-9]{5}',file)
+            qid=file.split(".")[0]
             for i in range(0, len(timeList)):
                 sheet.write(i + temp, 0, timeList[i].strftime('%Y-%m-%d'))
                 sheet.write(i + temp, 1, qid)
@@ -238,7 +239,8 @@ def ruanjian():
             #print(timeList)
             countList = sh.col_values(start_rowx=2, colx=2)
             countList=[ x.strip() for x in countList ]
-            qid = re.findall(r'[0-9]{5}', file)
+            #qid = re.findall(r'[0-9]{5}', file)
+            qid = file.split(".")[0]
             try:
                 #timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList[:-1]]
                 timeList = [x.strip() for x in timeList[:-1]]
@@ -257,6 +259,7 @@ def ruanjian():
             timeList = sh.col_values(start_rowx=1, colx=1)
             countList = sh.col_values(start_rowx=1, colx=5)
             qidList= sh.col_values(start_rowx=1, colx=4)
+            qidList=[file.split(".")[0]+"-"+x for x in qidList]
             try:
                 timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList]
             except Exception as e:
@@ -270,7 +273,8 @@ def ruanjian():
         if check == "日期":
             timeList = sh.col_values(start_rowx=1, colx=0)
             countList = sh.col_values(start_rowx=1, colx=1)
-            qid = re.findall(r'[0-9]{5}', file)
+            #qid = re.findall(r'[0-9]{5}', file)
+            qid = file.split(".")[0]
             try:
                 timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList]
             except Exception as e:
@@ -287,6 +291,6 @@ def ruanjian():
 
 if __name__=="__main__":
     #yuming()
-    daohang()
+    #daohang()
     #dianshang()
-    #ruanjian()
+    ruanjian()
