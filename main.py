@@ -79,7 +79,8 @@ def daohang():
                 timeList = [datetime.datetime(*x[:3]) for x in timeList]
             browser1List = sh.col_values(start_rowx=1,colx=1)
             browser2List = sh.col_values(start_rowx=1, colx=3)
-            qid=re.findall(r"[0-9]{5}",file)
+            #qid=re.findall(r"[0-9]{5}",file)
+            qid=file.split(".")[0]
             for i in range(0,len(timeList)):
                 sheet.write(i+temp,0,timeList[i].strftime('%Y-%m-%d'))
                 sheet.write(i+temp,1,qid)
@@ -94,6 +95,7 @@ def daohang():
                 timeList = [datetime.datetime(*x[:3]) for x in timeList]
             browser1List = sh.col_values(start_rowx=1, colx=2)
             qidList = sh.col_values(start_rowx=1, colx=1)
+            qidList=[file.split(".")[0]+"-"+x for x in qidList]
             for i in range(0,len(timeList)):
                 sheet.write(i+temp,0,timeList[i].strftime('%Y-%m-%d'))
                 sheet.write(i+temp,1,qidList[i])
@@ -108,9 +110,11 @@ def daohang():
                 timeList = [datetime.datetime(*x[:3]) for x in timeList]
             browser2List = sh.col_values(start_rowx=1, colx=2)
             qidList = sh.col_values(start_rowx=1, colx=1)
+            qidList=[re.findall(r"[0-9]{5}",x)[0] for x in qidList[:-1]]
+            qidList= [file.split(".")[0]+"-"+x for x in qidList]
             for i in range(0,len(timeList)):
                 sheet.write(i+temp,0,timeList[i].strftime('%Y-%m-%d'))
-                sheet.write(i+temp,1,re.findall(r"[0-9]{5}",qidList[i])[0])
+                sheet.write(i+temp,1,qidList[i])
                 sheet.write(i+temp,2,"")
                 sheet.write(i+temp,3,browser2List[i])
             temp=temp+i+1
@@ -283,6 +287,6 @@ def ruanjian():
 
 if __name__=="__main__":
     #yuming()
-    #daohang()
-    dianshang()
+    daohang()
+    #dianshang()
     #ruanjian()
