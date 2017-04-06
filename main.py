@@ -142,7 +142,8 @@ def dianshang():
 
         #time=sh.cell(4,0).value
         check=sh.cell(0,1).value
-        qid = re.findall(r"[0-9]{5}", file)
+        #qid = re.findall(r"[0-9]{5}", file)
+        qid=file.split(".")[0]
 
         if check=="广告方案":
             timeList = sh.col_values(start_rowx=1, colx=11)
@@ -281,7 +282,7 @@ def ruanjian():
     wbk.save(u"d:\python\软件汇总-%s.xls" % (ctime))
 
 if __name__=="__main__":
-    yuming()
+    #yuming()
     #daohang()
-    #dianshang()
+    dianshang()
     #ruanjian()
