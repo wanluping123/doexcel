@@ -266,6 +266,6 @@ def ruanjian():
 
 if __name__=="__main__":
     #yuming()
-    #daohang()
-    dianshang()
+    daohang()
+    #dianshang()
     #ruanjian()

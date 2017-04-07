@@ -13,7 +13,8 @@ import chardet
 
 
 def daohang_path(path):
-    file=open(path,'r')
+    code=bianma(path)
+    file=open(path,'r',encoding=code)
     result=file.readlines()
     file.close()
     wbk = xlwt.Workbook()
@@ -57,7 +58,8 @@ def dianshang_path(path):
     return newpath
 
 def ruanjian_path(path):
-    f = open(path, 'r',encoding='utf-8')
+    code=bianma(path)
+    f = open(path, 'r',encoding=code)
 
     lines = f.readlines()
     f.close()
@@ -81,6 +83,7 @@ def bianma(path):
     file=codecs.open(path,'rb')
     data=file.read()
     code=chardet.detect(data)['encoding']
+    file.close()
     return code
 
 
