@@ -31,16 +31,27 @@ def daohang_path(path="D:\余斌宏\数据模板\导航\\2345导航33883子渠�
 
 
 def dianshang_path(path='D:\python\data\dianshang\唯品会2月数据下载.csv'):
-    f=open(path,'r')
-    lines=f.readlines()
-    f.close()
-    wbk = xlwt.Workbook()
-    sheet = wbk.add_sheet("sheet1")
-    for i in range(len(lines)):
-        list=lines[i].strip('\n').split(',')
-        for y in range(len(list)):
-            sheet.write(i, y, list[y].strip("\"").strip("￥"))
-            #print(list[y].strip("\"").strip("￥"))
+    try:
+        f = open(path,'r')
+        lines = f.readlines()
+        f.close()
+        wbk = xlwt.Workbook()
+        sheet = wbk.add_sheet("sheet1")
+        for i in range(len(lines)):
+            list = lines[i].strip('\n').split(',')
+            for y in range(len(list)):
+                sheet.write(i, y, list[y].strip("\"").strip("￥"))
+    except Exception as e:
+        f = open(path, 'r', encoding='utf_16_le')
+        lines=f.readlines()
+        f.close()
+        wbk = xlwt.Workbook()
+        sheet = wbk.add_sheet("sheet1")
+        for i in range(len(lines)):
+            list=lines[i].strip().split('\t')
+            for y in range(len(list)):
+                sheet.write(i, y, list[y].strip("\ufeff"))
+                #print(list[y].strip("\"").strip("￥"))
     file_name = os.path.basename(path)
     file_name = file_name.split('.')[0]
     dir_name = os.path.dirname(path)
@@ -50,6 +61,7 @@ def dianshang_path(path='D:\python\data\dianshang\唯品会2月数据下载.csv'
 
 def ruanjian_path(path='D:\python\data\ruanjian\东方输入法多日.csv'):
     f = open(path, 'r',encoding='utf-8')
+
     lines = f.readlines()
     f.close()
     wbk = xlwt.Workbook()
