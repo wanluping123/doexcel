@@ -3,6 +3,8 @@
 #__author__="ybh"
 import xlwt
 import os,time
+import codecs
+import chardet
 #file=open("D:\余斌宏\数据模板\导航\\2345导航33883子渠道导出.xls",'r')
 #result=file.readlines()
 #for i in range(len(result)-1):
@@ -10,7 +12,7 @@ import os,time
 #    print(result[i])
 
 
-def daohang_path(path="D:\余斌宏\数据模板\导航\\2345导航33883子渠道导出.xls"):
+def daohang_path(path):
     file=open(path,'r')
     result=file.readlines()
     file.close()
@@ -30,27 +32,22 @@ def daohang_path(path="D:\余斌宏\数据模板\导航\\2345导航33883子渠�
     return newpath
 
 
-def dianshang_path(path='D:\python\data\dianshang\唯品会2月数据下载.csv'):
-    try:
-        f = open(path,'r')
-        lines = f.readlines()
-        f.close()
-        wbk = xlwt.Workbook()
-        sheet = wbk.add_sheet("sheet1")
-        for i in range(len(lines)):
-            list = lines[i].strip('\n').split(',')
-            for y in range(len(list)):
-                sheet.write(i, y, list[y].strip("\"").strip("￥"))
-    except Exception as e:
-        f = open(path, 'r', encoding='utf_16_le')
-        lines=f.readlines()
-        f.close()
-        wbk = xlwt.Workbook()
-        sheet = wbk.add_sheet("sheet1")
-        for i in range(len(lines)):
-            list=lines[i].strip().split('\t')
-            for y in range(len(list)):
-                sheet.write(i, y, list[y].strip("\ufeff"))
+def dianshang_path(path):
+
+    code=bianma(path)
+
+    f = open(path, 'r', encoding=code)
+    lines=f.readlines()
+    f.close()
+    wbk = xlwt.Workbook()
+    sheet = wbk.add_sheet("sheet1")
+    for i in range(len(lines)):
+        if "," in lines[i]:
+            list=lines[i].strip().split(',')
+        else:
+            list = lines[i].strip().split('\t')
+        for y in range(len(list)):
+            sheet.write(i, y, list[y].strip().strip("\ufeff").strip("\"").strip())
                 #print(list[y].strip("\"").strip("￥"))
     file_name = os.path.basename(path)
     file_name = file_name.split('.')[0]
@@ -59,7 +56,7 @@ def dianshang_path(path='D:\python\data\dianshang\唯品会2月数据下载.csv'
     wbk.save(u"%s" % (newpath))
     return newpath
 
-def ruanjian_path(path='D:\python\data\ruanjian\东方输入法多日.csv'):
+def ruanjian_path(path):
     f = open(path, 'r',encoding='utf-8')
 
     lines = f.readlines()
@@ -77,6 +74,15 @@ def ruanjian_path(path='D:\python\data\ruanjian\东方输入法多日.csv'):
     newpath = "%s%snew%s.xlsx" % (dir_name, os.sep, file_name)
     wbk.save(u"%s" % (newpath))
     return newpath
+
+
+
+def bianma(path):
+    file=codecs.open(path,'rb')
+    data=file.read()
+    code=chardet.detect(data)['encoding']
+    return code
+
 
 if __name__=="__main__":
     #get_newpath()

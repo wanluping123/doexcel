@@ -143,12 +143,7 @@ def dianshang():
             path=dianshang_path(path)
             wb = xlrd.open_workbook(path, encoding_override='gb2312')
         sh = wb.sheet_by_index(0)  # 第一个表
-
-        #time=sh.cell(4,0).value
-        #check=sh.cell(0,1).value
-        #qid = re.findall(r"[0-9]{5}", file)
         qid=file.split(".")[0]
-
 
         timeList = sh.col_values(start_rowx=1, colx=0)
         countList = sh.col_values(start_rowx=1, colx=1)
@@ -156,7 +151,7 @@ def dianshang():
          #   timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList]
         #except Exception as e:
         try:
-            timeList = [time.strptime(x, "%Y%m%d ") for x in timeList]
+            timeList = [time.strptime(x, "%Y%m%d") for x in timeList]
         except Exception as e:
             try:
                 timeList = [time.strptime(x, "%Y/%m/%d %H:%M") for x in timeList]
