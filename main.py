@@ -130,7 +130,7 @@ def dianshang():
     sheet = wbk.add_sheet(u"电商汇总")
     sheet.write(0, 0, u"时间")
     sheet.write(0, 1, u"渠道子ID")
-    sheet.write(0, 2, u"预估收入")
+    sheet.write(0, 2, u"订单数")
     temp = 1
     style1 = xlwt.XFStyle()
     style1.num_format_str = 'YYYY-MM-DD'
@@ -149,45 +149,19 @@ def dianshang():
         #qid = re.findall(r"[0-9]{5}", file)
         qid=file.split(".")[0]
 
-        if check=="广告方案":
-            timeList = sh.col_values(start_rowx=1, colx=11)
-            countList = sh.col_values(start_rowx=1, colx=5)
-            #try:
-             #   timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList[:-1]]
-            #except Exception as e:
+
+        timeList = sh.col_values(start_rowx=1, colx=0)
+        countList = sh.col_values(start_rowx=1, colx=1)
+        try:
+            timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList]
+        except Exception as e:
             timeList = [time.strptime(x, "%Y-%m-%d %H:%M:%S") for x in timeList]
             timeList = [datetime.datetime(*x[:3]) for x in timeList]
-            for i in range(0,len(timeList)):
-                sheet.write(i+temp,0,timeList[i].strftime('%Y-%m-%d'))
-                sheet.write(i+temp,1,qid)
-                sheet.write(i+temp,2,countList[i])
-            temp=temp+i+1
-        if check=="平台-设备":
-            timeList = sh.col_values(start_rowx=1, colx=0)
-            countList = sh.col_values(start_rowx=1, colx=3)
-            #try:
-             #   timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList[:-1]]
-            #except Exception as e:
-            timeList = [time.strptime(x, "%Y%m%d") for x in timeList]
-            timeList = [datetime.datetime(*x[:3]) for x in timeList]
-            for i in range(0, len(timeList)):
-                sheet.write(i + temp, 0, timeList[i].strftime('%Y-%m-%d'))
-                sheet.write(i + temp, 1, qid)
-                sheet.write(i + temp, 2, countList[i])
-            temp=temp+i+1
-        if check=="推广位名称":
-            timeList = sh.col_values(start_rowx=1, colx=0)
-            countList = sh.col_values(start_rowx=1, colx=7)
-            #try:
-            #    timeList = [xlrd.xldate.xldate_as_datetime(x, 0) for x in timeList[:-1]]
-            #except Exception as e:
-            timeList = [time.strptime(x, "%Y%m%d ") for x in timeList]
-            timeList = [datetime.datetime(*x[:3]) for x in timeList]
-            for i in range(0, len(timeList)):
-                sheet.write(i + temp, 0, timeList[i].strftime('%Y-%m-%d'))
-                sheet.write(i + temp, 1, qid)
-                sheet.write(i + temp, 2, countList[i])
-            temp=temp+i+1
+        for i in range(0,len(timeList)):
+            sheet.write(i+temp,0,timeList[i].strftime('%Y-%m-%d'))
+            sheet.write(i+temp,1,qid)
+            sheet.write(i+temp,2,countList[i])
+        temp=temp+i+1
 
 
     ctime=time.strftime("%Y-%m-%d",time.localtime())
